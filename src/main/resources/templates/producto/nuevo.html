@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<title>Nuevo Producto</title>
+
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+
+
+<body>
+
+
+
+	<nav class="navbar navbar-dark bg-dark">
+
+
+		<div class="container">
+
+
+			<a class="navbar-brand" href="/">
+				🛍 Tienda Ropa
+			</a>
+
+
+		</div>
+
+
+	</nav>
+
+
+
+
+	<div class="container mt-4">
+
+
+
+		<h2>Registrar Producto</h2>
+
+
+
+
+		<form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
+
+
+
+
+
+			<input class="form-control mb-2" placeholder="Nombre" th:field="*{nombre}">
+
+
+
+
+
+			<input class="form-control mb-2" placeholder="Marca" th:field="*{marca}">
+
+			<div class="mb-3">
+
+					
+
+
+						<select class="form-select" th:field="*{categoria}">
+
+
+							<option value="">
+								Seleccione Categoria
+							</option>
+
+
+							<option th:each="c:${categorias}" th:value="${c.id}" th:text="${c.nombre}">
+
+							</option>
+
+
+						</select>
+
+
+					</div>
+
+
+
+			<input class="form-control mb-2" placeholder="Talla" th:field="*{talla}">
+
+
+
+			<input class="form-control mb-2" placeholder="Precio" th:field="*{precio}">
+
+
+
+
+
+			<input class="form-control mb-2" placeholder="Stock" th:field="*{stock}">
+
+		
+
+
+
+
+			<button class="btn btn-success">
+
+				Guardar
+
+			</button>
+
+
+
+			<a href="/productos" class="btn btn-secondary">
+
+				Volver
+
+			</a>
+
+
+
+
+		</form>
+
+
+
+
+	</div>
+
+
+
+
+</body>
+
+
+</html>
