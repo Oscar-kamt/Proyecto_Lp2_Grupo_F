@@ -12,6 +12,6 @@ extends JpaRepository<Usuario,Integer>{
 
 
 Usuario findByUsuarioAndClave(String usuario,String clave);
-
+Usuario findByUsuario(String usuario);
 
 }
