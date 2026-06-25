@@ -54,5 +54,32 @@ return "redirect:/categorias";
 
 }
 
+@GetMapping("/editar/{id}")
+public String editar(@PathVariable Integer id, Model model){
+
+    model.addAttribute("categoria", service.buscar(id));
+
+    return "categoria/editar";
+
+}
+
+@GetMapping("/eliminar/{id}")
+public String eliminar(@PathVariable Integer id){
+
+    service.eliminar(id);
+
+    return "redirect:/categorias";
+
+}
+
+@GetMapping("/buscar")
+public String buscar(@RequestParam String nombre, Model model){
+
+    model.addAttribute("categorias", service.buscar(nombre));
+
+    return "categoria/listado";
+
+}
+
 
 }

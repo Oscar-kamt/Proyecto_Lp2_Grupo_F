@@ -8,29 +8,40 @@ import org.springframework.stereotype.Service;
 import com.tiendaropa.model.Categoria;
 import com.tiendaropa.repository.CategoriaRepository;
 
-
-
 @Service
 public class CategoriaService {
 
+    @Autowired
+    CategoriaRepository repo;
 
-@Autowired
-CategoriaRepository repo;
+    public List<Categoria> listar(){
 
+        return repo.findAll();
 
+    }
 
-public List<Categoria> listar(){
+    public Categoria guardar(Categoria c){
 
-return repo.findAll();
+        return repo.save(c);
 
-}
+    }
 
+    public Categoria buscar(Integer id){
 
-public Categoria guardar(Categoria c){
+        return repo.findById(id).orElse(null);
 
-return repo.save(c);
+    }
 
-}
+    public void eliminar(Integer id){
 
+        repo.deleteById(id);
+
+    }
+
+    public List<Categoria> buscar(String nombre){
+
+        return repo.findByNombreContaining(nombre);
+
+    }
 
 }
