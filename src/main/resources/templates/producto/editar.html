@@ -11,24 +11,22 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
+		.form-control,
+		.form-select {
 
-	.form-control,
-	.form-select{
+			border: 2px solid #6c757d;
 
-	    border:2px solid #6c757d;
+		}
 
-	}
+		.form-control:focus,
+		.form-select:focus {
 
-	.form-control:focus,
-	.form-select:focus{
+			border-color: #212529;
+			box-shadow: none;
 
-	    border-color:#212529;
-	    box-shadow:none;
-
-	}
-
+		}
 	</style>
-	
+
 </head>
 
 <body>
@@ -53,10 +51,7 @@
 				Editar Producto
 			</h2>
 
-			<form id="frmProducto"
-			      th:action="@{/productos/guardar}"
-			      th:object="${producto}"
-			      method="post">
+			<form id="frmProducto" th:action="@{/productos/guardar}" th:object="${producto}" method="post">
 
 				<input type="hidden" th:field="*{id}">
 
@@ -111,32 +106,23 @@
 
 				<div class="mb-3">
 
-				    <label class="form-label fw-bold">
-				        Precio :
-				    </label>
+					<label class="form-label fw-bold">
+						Precio :
+					</label>
 
-				    <input
-				        type="number"
-				        class="form-control"
-				        th:field="*{precio}"
-				        placeholder="Ingrese el precio"
-				        step="0.01"
-				        min="0.01">
+					<input type="number" class="form-control" th:field="*{precio}" placeholder="Ingrese el precio"
+						step="0.01" min="0.01">
 
 				</div>
 
 				<div class="mb-4">
 
-				    <label class="form-label fw-bold">
-				        Stock :
-				    </label>
+					<label class="form-label fw-bold">
+						Stock :
+					</label>
 
-				    <input
-				        type="number"
-				        class="form-control"
-				        th:field="*{stock}"
-				        placeholder="Ingrese el stock"
-				        min="0">
+					<input type="number" class="form-control" th:field="*{stock}" placeholder="Ingrese el stock"
+						min="0">
 
 				</div>
 
@@ -163,6 +149,12 @@
 
 				</div>
 
+				<div th:if="${errorGeneral}" class="alert alert-danger mt-3">
+
+					<span th:text="${errorGeneral}"></span>
+
+				</div>
+
 			</form>
 
 		</div>
@@ -172,97 +164,97 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-	
+
 	<script>
 
-	$(function(){
+		$(function () {
 
-	    $("#frmProducto").validate({
+			$("#frmProducto").validate({
 
-	        rules:{
+				rules: {
 
-	            nombre:{
-	                required:true
-	            },
+					nombre: {
+						required: true
+					},
 
-	            marca:{
-	                required:true
-	            },
+					marca: {
+						required: true
+					},
 
-	            categoria:{
-	                required:true
-	            },
+					categoria: {
+						required: true
+					},
 
-	            talla:{
-	                required:true
-	            },
+					talla: {
+						required: true
+					},
 
-	            precio:{
-	                required:true,
-	                number:true,
-	                min:0.01
-	            },
+					precio: {
+						required: true,
+						number: true,
+						min: 0.01
+					},
 
-	            stock:{
-	                required:true,
-	                digits:true,
-	                min:0
-	            }
+					stock: {
+						required: true,
+						digits: true,
+						min: 0
+					}
 
-	        },
+				},
 
-	        messages:{
+				messages: {
 
-	            nombre:{
-	                required:"Ingrese el nombre del producto."
-	            },
+					nombre: {
+						required: "Ingrese el nombre del producto."
+					},
 
-	            marca:{
-	                required:"Ingrese la marca del producto."
-	            },
+					marca: {
+						required: "Ingrese la marca del producto."
+					},
 
-	            categoria:{
-	                required:"Seleccione una categoría."
-	            },
+					categoria: {
+						required: "Seleccione una categoría."
+					},
 
-	            talla:{
-	                required:"Ingrese una talla."
-	            },
+					talla: {
+						required: "Ingrese una talla."
+					},
 
-	            precio:{
-	                required:"Ingrese el precio.",
-	                number:"Ingrese un número válido.",
-	                min:"El precio debe ser mayor a 0."
-	            },
+					precio: {
+						required: "Ingrese el precio.",
+						number: "Ingrese un número válido.",
+						min: "El precio debe ser mayor a 0."
+					},
 
-	            stock:{
-	                required:"Ingrese el stock.",
-	                digits:"Solo se permiten números enteros.",
-	                min:"El stock no puede ser negativo."
-	            }
+					stock: {
+						required: "Ingrese el stock.",
+						digits: "Solo se permiten números enteros.",
+						min: "El stock no puede ser negativo."
+					}
 
-	        },
+				},
 
-	        errorClass:"text-danger",
+				errorClass: "text-danger",
 
-	        highlight:function(element){
+				highlight: function (element) {
 
-	            $(element).addClass("is-invalid");
+					$(element).addClass("is-invalid");
 
-	        },
+				},
 
-	        unhighlight:function(element){
+				unhighlight: function (element) {
 
-	            $(element).removeClass("is-invalid");
+					$(element).removeClass("is-invalid");
 
-	        }
+				}
 
-	    });
+			});
 
-	});
+		});
 
 	</script>
-	
+
 </body>
 
 </html>

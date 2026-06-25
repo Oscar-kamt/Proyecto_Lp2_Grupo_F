@@ -50,4 +50,22 @@ public List<Cliente> buscar(String dni){
 
 }
 
+public Cliente buscarPorDni(String dni){
+
+    return repo.findByDni(dni);
+
+}
+
+public Cliente buscarPorTelefono(String telefono){
+
+    return repo.findByTelefono(telefono);
+
+}
+
+public Cliente buscarPorCorreo(String correo){
+
+    return repo.findByCorreo(correo);
+
+}
+
 }

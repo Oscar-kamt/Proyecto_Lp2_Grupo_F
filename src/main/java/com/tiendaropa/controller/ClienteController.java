@@ -54,11 +54,55 @@ public String nuevo(Model model){
 }
 
 @PostMapping("/guardar")
-public String guardar(Cliente c){
+public String guardar(Cliente c, Model model){
 
+    boolean hayError = false;
+
+    Cliente existeDni = service.buscarPorDni(c.getDni());
+
+    if(existeDni != null && !existeDni.getId().equals(c.getId())){
+
+        model.addAttribute("errorDni", "Este DNI ya está registrado.");
+        hayError = true;
+
+    }
+
+    Cliente existeTelefono = service.buscarPorTelefono(c.getTelefono());
+
+    if(existeTelefono != null && !existeTelefono.getId().equals(c.getId())){
+
+        model.addAttribute("errorTelefono", "Este teléfono ya está registrado.");
+        hayError = true;
+
+    }
+
+    Cliente existeCorreo = service.buscarPorCorreo(c.getCorreo());
+
+    if(existeCorreo != null && !existeCorreo.getId().equals(c.getId())){
+
+        model.addAttribute("errorCorreo", "Este correo ya está registrado.");
+        hayError = true;
+
+    }
+
+    if(hayError){
+
+        model.addAttribute("cliente", c);
+
+        if(c.getId() == null){
+
+            return "cliente/nuevo";
+
+        }
+        
+        model.addAttribute("errorGeneral",
+                "No se puede duplicar la información de otro cliente.");
+
+        return "cliente/editar";
+
+    }
 
     service.guardar(c);
-
 
     return "redirect:/clientes";
 

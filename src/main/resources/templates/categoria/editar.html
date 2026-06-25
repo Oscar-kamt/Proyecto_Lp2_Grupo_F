@@ -11,22 +11,20 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
+		.form-control {
 
-	.form-control{
+			border: 2px solid #6c757d;
 
-	    border:2px solid #6c757d;
+		}
 
-	}
+		.form-control:focus {
 
-	.form-control:focus{
+			border-color: #212529;
+			box-shadow: none;
 
-	    border-color:#212529;
-	    box-shadow:none;
-
-	}
-
+		}
 	</style>
-	
+
 </head>
 
 
@@ -69,7 +67,11 @@
 
 				</div>
 
+				<div th:if="${errorGeneral}" class="alert alert-danger mt-3">
 
+					<span th:text="${errorGeneral}"></span>
+
+				</div>
 
 				<div class="d-flex gap-2">
 
@@ -98,55 +100,55 @@
 
 
 		</div>
-	
+
 	</div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
 	<script>
 
-	$(function(){
+		$(function () {
 
-	    $("#frmCategoria").validate({
+			$("#frmCategoria").validate({
 
-	        rules:{
+				rules: {
 
-	            nombre:{
-	                required:true
-	            }
+					nombre: {
+						required: true
+					}
 
-	        },
+				},
 
-	        messages:{
+				messages: {
 
-	            nombre:{
-	                required:"Ingrese el nombre de la categoría."
-	            }
+					nombre: {
+						required: "Ingrese el nombre de la categoría."
+					}
 
-	        },
+				},
 
-	        errorClass:"text-danger",
+				errorClass: "text-danger",
 
-	        highlight:function(element){
+				highlight: function (element) {
 
-	            $(element).addClass("is-invalid");
+					$(element).addClass("is-invalid");
 
-	        },
+				},
 
-	        unhighlight:function(element){
+				unhighlight: function (element) {
 
-	            $(element).removeClass("is-invalid");
+					$(element).removeClass("is-invalid");
 
-	        }
+				}
 
-	    });
+			});
 
-	});
+		});
 
 	</script>
-	
+
 </body>
 
 </html>

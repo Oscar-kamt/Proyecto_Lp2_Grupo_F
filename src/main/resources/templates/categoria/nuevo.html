@@ -66,9 +66,18 @@
 
 					</label>
 
-					<input class="form-control"
+					<input id="nombre"
+					       class="form-control"
 					       th:field="*{nombre}"
 					       placeholder="Ingrese el nombre de la categoría">
+						   
+						   <div id="errorNombre"
+						        th:if="${errorNombre}"
+						        class="text-danger mt-1">
+
+						       <span th:text="${errorNombre}"></span>
+
+						   </div>
 
 				</div>
 
@@ -135,6 +144,12 @@
 	        }
 
 	    });
+		
+		$("#nombre").on("input", function(){
+
+		    $("#errorNombre").hide();
+
+		});
 
 	});
 

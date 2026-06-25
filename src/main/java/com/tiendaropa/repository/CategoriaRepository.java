@@ -12,4 +12,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria,Integer>{
 
     List<Categoria> findByNombreContaining(String nombre);
 
+    Categoria findByNombre(String nombre);
+
 }

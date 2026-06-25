@@ -43,5 +43,11 @@ public class CategoriaService {
         return repo.findByNombreContaining(nombre);
 
     }
+    
+    public Categoria buscarPorNombre(String nombre){
+
+        return repo.findByNombre(nombre);
+
+    }
 
 }

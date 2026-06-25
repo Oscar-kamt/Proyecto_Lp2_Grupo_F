@@ -46,11 +46,33 @@ return "categoria/nuevo";
 
 
 @PostMapping("/guardar")
-public String guardar(Categoria c){
+public String guardar(Categoria c, Model model){
 
-service.guardar(c);
+    Categoria existe = service.buscarPorNombre(c.getNombre());
 
-return "redirect:/categorias";
+    if(existe != null && !existe.getId().equals(c.getId())){
+
+        model.addAttribute("errorNombre",
+                "Esta categoría ya está registrada.");
+
+        model.addAttribute("categoria", c);
+
+        if(c.getId() == null){
+
+            return "categoria/nuevo";
+
+        }
+
+        model.addAttribute("errorGeneral",
+                "No se puede duplicar otra categoría.");
+
+        return "categoria/editar";
+
+    }
+
+    service.guardar(c);
+
+    return "redirect:/categorias";
 
 }
 

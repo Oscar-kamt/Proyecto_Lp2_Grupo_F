@@ -59,7 +59,13 @@
 						Nombre
 					</label>
 
-					<input class="form-control" th:field="*{nombre}">
+					<input id="nombre" class="form-control" th:field="*{nombre}">
+
+					<div id="errorNombre" th:if="${errorNombre}" class="text-danger mt-1">
+
+						<span th:text="${errorNombre}"></span>
+
+					</div>
 
 				</div>
 
@@ -141,7 +147,7 @@
 				</div>
 
 			</form>
-
+			
 		</div>
 
 	</div>
@@ -235,6 +241,12 @@
 					$(element).removeClass("is-invalid");
 
 				}
+
+			});
+			
+			$("#nombre").on("input", function(){
+
+			    $("#errorNombre").hide();
 
 			});
 

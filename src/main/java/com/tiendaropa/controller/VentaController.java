@@ -18,11 +18,15 @@ public class VentaController {
 	VentaService service;
 
 	@GetMapping
-	public String listar(Model model) {
+	public String formulario(Model model) {
 
-		model.addAttribute("ventas", service.listar());
+	    model.addAttribute("venta", new Venta());
 
-		return "venta/listado";
+	    model.addAttribute("clientes", clienteService.listar());
+
+	    model.addAttribute("productos", productoService.listar());
+
+	    return "venta/formulario";
 
 	}
 
@@ -32,18 +36,6 @@ public class VentaController {
 	@Autowired
 	ProductoService productoService;
 
-	@GetMapping("/nuevo")
-	public String nuevo(Model model) {
-
-		model.addAttribute("venta", new Venta());
-
-		model.addAttribute("clientes", clienteService.listar());
-
-		model.addAttribute("productos", productoService.listar());
-
-		return "venta/nuevo";
-
-	}
 
 	@PostMapping("/guardar")
 	public String guardar(Venta v) {
@@ -54,4 +46,20 @@ public class VentaController {
 
 	}
 
+	@GetMapping("/buscarCliente")
+	@ResponseBody
+	public String buscarCliente(@RequestParam String dni){
+
+	    var cliente = clienteService.buscarPorDni(dni);
+
+	    if(cliente == null){
+
+	        return "";
+
+	    }
+
+	    return cliente.getNombre();
+
+	}
+	
 }

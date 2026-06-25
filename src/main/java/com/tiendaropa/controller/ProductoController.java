@@ -64,11 +64,38 @@ public String editar(@PathVariable Integer id, Model model){
 
 
 @PostMapping("/guardar")
-public String guardar(Producto p){
+public String guardar(Producto p, Model model){
 
-service.guardar(p);
+    Producto existe = service.buscarPorNombre(p.getNombre());
 
-return "redirect:/productos";
+    if(existe != null && !existe.getId().equals(p.getId())){
+
+        model.addAttribute(
+                "errorNombre",
+                "Este producto ya está registrado.");
+
+        model.addAttribute("producto", p);
+
+        model.addAttribute("categorias",
+                categoriaService.listar());
+
+        if(p.getId() == null){
+
+            return "producto/nuevo";
+
+        }
+
+        model.addAttribute(
+                "errorGeneral",
+                "No se puede duplicar otro producto.");
+
+        return "producto/editar";
+
+    }
+
+    service.guardar(p);
+
+    return "redirect:/productos";
 
 }
 
