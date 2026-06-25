@@ -32,6 +32,18 @@ return repo.save(c);
 
 }
 
+public Cliente buscar(Integer id){
+
+    return repo.findById(id).orElse(null);
+
+}
+
+public void eliminar(Integer id){
+
+    repo.deleteById(id);
+
+}
+
 public List<Cliente> buscar(String nombre){
 
     return repo.findByNombreContainingIgnoreCase(nombre);

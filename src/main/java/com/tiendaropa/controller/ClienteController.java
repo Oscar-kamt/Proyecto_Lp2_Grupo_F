@@ -53,11 +53,6 @@ public String nuevo(Model model){
 
 }
 
-
-
-
-
-
 @PostMapping("/guardar")
 public String guardar(Cliente c){
 
@@ -69,9 +64,23 @@ public String guardar(Cliente c){
 
 }
 
+@GetMapping("/editar/{id}")
+public String editar(@PathVariable Integer id, Model model){
 
+    model.addAttribute("cliente", service.buscar(id));
 
+    return "cliente/editar";
 
+}
+
+@GetMapping("/eliminar/{id}")
+public String eliminar(@PathVariable Integer id){
+
+    service.eliminar(id);
+
+    return "redirect:/clientes";
+
+}
 
 @GetMapping("/buscar")
 public String buscar(
