@@ -49,6 +49,18 @@ return "producto/nuevo";
 
 }
 
+@GetMapping("/editar/{id}")
+public String editar(@PathVariable Integer id, Model model){
+
+    model.addAttribute("producto", service.buscar(id));
+
+    model.addAttribute("categorias",
+            categoriaService.listar());
+
+    return "producto/editar";
+
+}
+
 
 
 @PostMapping("/guardar")

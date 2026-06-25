@@ -36,10 +36,10 @@ public class Producto {
     private String color;
 
 
-    private double precio;
+    private Double precio;
 
-
-    private int stock;
+    
+    private Integer stock;
 
 
 
