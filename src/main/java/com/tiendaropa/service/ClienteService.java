@@ -44,9 +44,9 @@ public void eliminar(Integer id){
 
 }
 
-public List<Cliente> buscar(String nombre){
+public List<Cliente> buscar(String dni){
 
-    return repo.findByNombreContainingIgnoreCase(nombre);
+    return repo.findByDniContainingIgnoreCase(dni);
 
 }
 

@@ -110,13 +110,13 @@
 
 			    <div class="input-group">
 
-			        <input
-			            type="text"
-			            id="nombre"
-			            name="nombre"
-			            class="form-control"
-			            placeholder="Buscar cliente"
-			            th:value="${param.nombre}">
+					<input
+					    type="text"
+					    id="dni"
+					    name="dni"
+					    class="form-control"
+					    placeholder="Ingrese el DNI del cliente"
+					    th:value="${param.dni}">
 
 			        <button class="btn btn-outline-secondary"
 			                type="button"
@@ -153,7 +153,7 @@
 
 					<tr>
 
-						<th>ID</th>
+						<th class="text-center">ID</th>
 
 						<th>Nombre</th>
 
@@ -163,7 +163,7 @@
 
 						<th>Correo</th>
 						
-						<th>Acciones</th>
+						<th class="text-center">Acciones</th>
 
 
 					</tr>
@@ -183,7 +183,7 @@
 					<tr th:each="c:${clientes}">
 
 
-						<td th:text="${c.id}"></td>
+						<td class="text-center" th:text="${c.id}"></td>
 
 
 						<td th:text="${c.nombre}"></td>
@@ -237,53 +237,61 @@
 
 	<script>
 
-	$(function(){
+		$(function(){
 
-	    $("#frmBuscar").validate({
+		    $("#frmBuscar").validate({
 
-	        rules:{
-	            nombre:{
-	                required:true
-	            }
-	        },
+		        rules:{
 
-	        messages:{
-	            nombre:{
-	                required:"Ingrese el nombre del cliente a buscar."
-	            }
-	        },
+		            dni:{
+		                required:true,
+		                digits:true,
+		                
+		            }
 
-			errorClass:"text-danger",
+		        },
 
-			errorPlacement:function(error, element){
+		        messages:{
 
-			    error.insertAfter(element.closest(".input-group"));
+		            dni:{
+		                required:"Ingrese el DNI del cliente.",
+		                digits:"Solo se permiten números.",
+		                
+		            }
 
-			},
+		        },
 
-			highlight:function(element){
+		        errorClass:"text-danger",
 
-			    $(element).addClass("is-invalid");
+		        errorPlacement:function(error, element){
 
-			},
+		            error.insertAfter(element.closest(".input-group"));
 
-			unhighlight:function(element){
+		        },
 
-			    $(element).removeClass("is-invalid");
+		        highlight:function(element){
 
-			}
-			
-	    });
+		            $(element).addClass("is-invalid");
 
-	    $("#btnLimpiar").click(function(){
+		        },
 
-	        $("#nombre").val("");
+		        unhighlight:function(element){
 
-	        window.location.href="/clientes";
+		            $(element).removeClass("is-invalid");
 
-	    });
+		        }
 
-	});
+		    });
+
+		    $("#btnLimpiar").click(function(){
+
+		        $("#dni").val("");
+
+		        window.location.href="/clientes";
+
+		    });
+
+		});
 
 	</script>
 	

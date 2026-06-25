@@ -85,14 +85,12 @@ public String eliminar(@PathVariable Integer id){
 @GetMapping("/buscar")
 public String buscar(
 
-        @RequestParam("nombre") String nombre, Model model){
+        @RequestParam("dni") String dni,
 
-
+        Model model){
 
     model.addAttribute("clientes",
-            service.buscar(nombre));
-
-
+            service.buscar(dni));
 
     return "cliente/listado";
 

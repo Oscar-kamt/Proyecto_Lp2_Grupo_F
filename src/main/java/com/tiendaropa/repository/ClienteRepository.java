@@ -10,5 +10,5 @@ import com.tiendaropa.model.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente,Integer>{
 
-	   List<Cliente> findByNombreContainingIgnoreCase(String nombre);
+	   List<Cliente> findByDniContainingIgnoreCase(String dni);
 }
