@@ -129,7 +129,8 @@
 
 			<!-- PRODUCTOS -->
 
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 mb-4"
+			     th:if="${session.usuario.rol == 'ADMIN'}">
 
 
 				<div class="card card-menu text-center p-4">
@@ -179,7 +180,8 @@
 			<!-- CATEGORIAS -->
 
 
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 mb-4"
+			     th:if="${session.usuario.rol == 'ADMIN'}">
 
 
 				<div class="card card-menu text-center p-4">
@@ -231,8 +233,8 @@
 			<!-- CLIENTES -->
 
 
-			<div class="col-md-4 mb-4">
-
+			<div class="col-md-4 mb-4"
+			     th:if="${session.usuario.rol == 'ADMIN'}">
 
 				<div class="card card-menu text-center p-4">
 

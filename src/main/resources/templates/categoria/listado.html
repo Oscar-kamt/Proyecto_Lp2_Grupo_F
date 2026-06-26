@@ -45,7 +45,13 @@
 			</div>
 
 
+			<div th:if="${mensajeExito}" class="alert alert-success">
+			    <span th:text="${mensajeExito}"></span>
+			</div>
 
+			<div th:if="${mensajeError}" class="alert alert-danger">
+			    <span th:text="${mensajeError}"></span>
+			</div>
 
 
 

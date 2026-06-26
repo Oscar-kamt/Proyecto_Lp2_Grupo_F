@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tiendaropa.model.Producto;
 import com.tiendaropa.service.CategoriaService;
@@ -26,31 +26,55 @@ ProductoService service;
 
 
 
-@GetMapping
-public String listar(Model model){
-
-model.addAttribute("productos",service.listar());
-
-return "producto/listado";
-
-}
-
-
 @Autowired
 CategoriaService categoriaService;
 
-@GetMapping("/nuevo")
-public String nuevo(Model model){
+private boolean accesoAdmin(HttpSession session){
 
-model.addAttribute("producto",new Producto());
-model.addAttribute("categorias", categoriaService.listar());
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-return "producto/nuevo";
+    return usuario != null && usuario.getRol().equals("ADMIN");
 
 }
 
+@GetMapping
+public String listar(Model model, HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
+
+    model.addAttribute("productos", service.listar());
+
+    return "producto/listado";
+
+}
+
+
+
+@GetMapping("/nuevo")
+public String nuevo(Model model, HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
+
+    model.addAttribute("producto",new Producto());
+    model.addAttribute("categorias", categoriaService.listar());
+
+    return "producto/nuevo";
+
+}
+
+
 @GetMapping("/editar/{id}")
-public String editar(@PathVariable Integer id, Model model){
+public String editar(@PathVariable Integer id,
+                     Model model,
+                     HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     model.addAttribute("producto", service.buscar(id));
 
@@ -64,7 +88,13 @@ public String editar(@PathVariable Integer id, Model model){
 
 
 @PostMapping("/guardar")
-public String guardar(Producto p, Model model){
+public String guardar(Producto p,
+                      Model model,
+                      HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     Producto existe = service.buscarPorNombre(p.getNombre());
 
@@ -102,11 +132,31 @@ public String guardar(Producto p, Model model){
 
 
 @GetMapping("/eliminar/{id}")
-public String eliminar(@PathVariable Integer id){
+public String eliminar(@PathVariable Integer id,
+                       HttpSession session,
+                       RedirectAttributes redirect){
 
-service.eliminar(id);
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
-return "redirect:/productos";
+    try{
+
+        service.eliminar(id);
+
+        redirect.addFlashAttribute(
+                "mensajeExito",
+                "Producto eliminado correctamente.");
+
+    }catch(Exception e){
+
+        redirect.addFlashAttribute(
+                "mensajeError",
+                "No se puede eliminar el producto porque está siendo utilizado en una o más ventas.");
+
+    }
+
+    return "redirect:/productos";
 
 }
 
@@ -115,15 +165,18 @@ public String buscar(
 
 @RequestParam String nombre,
 
-Model model){
+Model model,
 
+HttpSession session){
 
-model.addAttribute("productos",
-service.buscar(nombre));
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
+    model.addAttribute("productos",
+            service.buscar(nombre));
 
-return "producto/listado";
-
+    return "producto/listado";
 
 }
 

@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
+import jakarta.servlet.http.HttpSession;
+import com.tiendaropa.model.Usuario;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.tiendaropa.model.Cliente;
 import com.tiendaropa.service.ClienteService;
 
@@ -21,40 +22,50 @@ public class ClienteController {
 @Autowired
 ClienteService service;
 
+private boolean accesoAdmin(HttpSession session){
 
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+    return usuario != null && usuario.getRol().equals("ADMIN");
+
+}
 
 
 @GetMapping
-public String listar(Model model){
+public String listar(Model model, HttpSession session){
 
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
-    model.addAttribute("clientes",
-            service.listar());
-
+    model.addAttribute("clientes", service.listar());
 
     return "cliente/listado";
 
 }
 
 
-
-
-
-
 @GetMapping("/nuevo")
-public String nuevo(Model model){
+public String nuevo(Model model, HttpSession session){
 
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
-    model.addAttribute("cliente",
-            new Cliente());
-
+    model.addAttribute("cliente", new Cliente());
 
     return "cliente/nuevo";
 
 }
 
 @PostMapping("/guardar")
-public String guardar(Cliente c, Model model){
+public String guardar(Cliente c,
+                      Model model,
+                      HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     boolean hayError = false;
 
@@ -109,7 +120,13 @@ public String guardar(Cliente c, Model model){
 }
 
 @GetMapping("/editar/{id}")
-public String editar(@PathVariable Integer id, Model model){
+public String editar(@PathVariable Integer id,
+                     Model model,
+                     HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     model.addAttribute("cliente", service.buscar(id));
 
@@ -118,9 +135,29 @@ public String editar(@PathVariable Integer id, Model model){
 }
 
 @GetMapping("/eliminar/{id}")
-public String eliminar(@PathVariable Integer id){
+public String eliminar(@PathVariable Integer id,
+                       HttpSession session,
+                       RedirectAttributes redirect){
 
-    service.eliminar(id);
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
+
+    try{
+
+        service.eliminar(id);
+
+        redirect.addFlashAttribute(
+                "mensajeExito",
+                "Cliente eliminado correctamente.");
+
+    }catch(Exception e){
+
+        redirect.addFlashAttribute(
+                "mensajeError",
+                "No se puede eliminar el cliente porque tiene ventas registradas.");
+
+    }
 
     return "redirect:/clientes";
 
@@ -131,7 +168,13 @@ public String buscar(
 
         @RequestParam("dni") String dni,
 
-        Model model){
+        Model model,
+
+        HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     model.addAttribute("clientes",
             service.buscar(dni));
@@ -139,9 +182,6 @@ public String buscar(
     return "cliente/listado";
 
 }
-
-
-
 
 
 }

@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
+import jakarta.servlet.http.HttpSession;
+import com.tiendaropa.model.Usuario;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.tiendaropa.model.Categoria;
 import com.tiendaropa.service.CategoriaService;
 
@@ -21,32 +22,50 @@ public class CategoriaController {
 @Autowired
 CategoriaService service;
 
+private boolean accesoAdmin(HttpSession session){
 
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-@GetMapping
-public String listar(Model model){
-
-model.addAttribute("categorias",service.listar());
-
-return "categoria/listado";
+    return usuario != null && usuario.getRol().equals("ADMIN");
 
 }
 
+@GetMapping
+public String listar(Model model, HttpSession session){
 
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
+
+    model.addAttribute("categorias", service.listar());
+
+    return "categoria/listado";
+
+}
 
 @GetMapping("/nuevo")
-public String nuevo(Model model){
+public String nuevo(Model model, HttpSession session){
 
-model.addAttribute("categoria",new Categoria());
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
-return "categoria/nuevo";
+    model.addAttribute("categoria", new Categoria());
+
+    return "categoria/nuevo";
 
 }
 
 
 
 @PostMapping("/guardar")
-public String guardar(Categoria c, Model model){
+public String guardar(Categoria c,
+                      Model model,
+                      HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     Categoria existe = service.buscarPorNombre(c.getNombre());
 
@@ -77,7 +96,13 @@ public String guardar(Categoria c, Model model){
 }
 
 @GetMapping("/editar/{id}")
-public String editar(@PathVariable Integer id, Model model){
+public String editar(@PathVariable Integer id,
+                     Model model,
+                     HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     model.addAttribute("categoria", service.buscar(id));
 
@@ -86,16 +111,42 @@ public String editar(@PathVariable Integer id, Model model){
 }
 
 @GetMapping("/eliminar/{id}")
-public String eliminar(@PathVariable Integer id){
+public String eliminar(@PathVariable Integer id,
+                       HttpSession session,
+                       RedirectAttributes redirect){
 
-    service.eliminar(id);
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
+
+    try{
+
+        service.eliminar(id);
+
+        redirect.addFlashAttribute(
+                "mensajeExito",
+                "Categoría eliminada correctamente.");
+
+    }catch(Exception e){
+
+        redirect.addFlashAttribute(
+                "mensajeError",
+                "No se puede eliminar la categoría porque tiene productos asociados.");
+
+    }
 
     return "redirect:/categorias";
 
 }
 
 @GetMapping("/buscar")
-public String buscar(@RequestParam String nombre, Model model){
+public String buscar(@RequestParam String nombre,
+                     Model model,
+                     HttpSession session){
+
+    if(!accesoAdmin(session)){
+        return "redirect:/";
+    }
 
     model.addAttribute("categorias", service.buscar(nombre));
 
