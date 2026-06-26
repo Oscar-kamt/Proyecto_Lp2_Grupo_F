@@ -21,57 +21,7 @@
 <body>
 
 
-	<nav class="navbar navbar-dark bg-dark">
-
-
-		<div class="container">
-
-
-			<a class="navbar-brand" href="/">
-				🛍 Tienda Ropa
-			</a>
-
-
-
-			<div>
-
-
-				<a href="/" class="btn btn-outline-light">
-					Inicio
-				</a>
-
-
-				<a href="/productos" class="btn btn-outline-light">
-					Productos
-				</a>
-
-
-				<a href="/categorias" class="btn btn-outline-light">
-					Categorias
-				</a>
-
-
-				<a href="/clientes" class="btn btn-outline-light">
-					Clientes
-				</a>
-
-
-				<a href="/ventas" class="btn btn-outline-light">
-					Ventas
-				</a>
-
-
-			</div>
-
-
-
-		</div>
-
-
-	</nav>
-
-
-
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 
 
@@ -229,7 +179,15 @@
 
 			</table>
 
+			<div class="d-flex justify-content-end gap-2 mt-4">
 
+				<a href="/" class="btn btn-secondary">
+
+					← Volver
+
+				</a>
+
+			</div>
 
 
 		</div>
@@ -239,73 +197,73 @@
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	
+
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-	
+
 	<script>
 
-		$(function(){
+		$(function () {
 
-		    $("#frmBuscar").validate({
+			$("#frmBuscar").validate({
 
-		        rules:{
+				rules: {
 
-		            nombre:{
-		                required:true
-		            }
-
-		        },
-
-		        messages:{
-
-		            nombre:{
-		                required:"Ingrese el nombre del producto."
-		            }
-
-		        },
-
-				errorClass:"text-danger",
-
-				highlight:function(element){
-
-				    $(element).addClass("is-invalid");
+					nombre: {
+						required: true
+					}
 
 				},
 
-				unhighlight:function(element){
+				messages: {
 
-				    $(element).removeClass("is-invalid");
+					nombre: {
+						required: "Ingrese el nombre del producto."
+					}
 
 				},
 
-				errorPlacement:function(error, element){
+				errorClass: "text-danger",
 
-				    if(element.parent(".input-group").length){
+				highlight: function (element) {
 
-				        error.insertAfter(element.parent());
+					$(element).addClass("is-invalid");
 
-				    }else{
+				},
 
-				        error.insertAfter(element);
+				unhighlight: function (element) {
 
-				    }
+					$(element).removeClass("is-invalid");
+
+				},
+
+				errorPlacement: function (error, element) {
+
+					if (element.parent(".input-group").length) {
+
+						error.insertAfter(element.parent());
+
+					} else {
+
+						error.insertAfter(element);
+
+					}
 
 				}
 
-		    });
+			});
 
-		    $("#btnLimpiar").click(function(){
+			$("#btnLimpiar").click(function () {
 
-		        $("#nombre").val("");
+				$("#nombre").val("");
 
-		        window.location.href="/productos";
+				window.location.href = "/productos";
 
-		    });
+			});
 
 		});
 
 	</script>
-	
+
 </body>
 
 

@@ -11,7 +11,7 @@
 
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-	
+
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
@@ -20,58 +20,7 @@
 
 <body>
 
-
-	<nav class="navbar navbar-dark bg-dark">
-
-
-			<div class="container">
-
-
-				<a class="navbar-brand" href="/">
-					🛍 Tienda Ropa
-				</a>
-
-
-
-				<div>
-
-
-					<a href="/" class="btn btn-outline-light">
-						Inicio
-					</a>
-
-
-					<a href="/productos" class="btn btn-outline-light">
-						Productos
-					</a>
-
-
-					<a href="/categorias" class="btn btn-outline-light">
-						Categorias
-					</a>
-
-
-					<a href="/clientes" class="btn btn-outline-light">
-						Clientes
-					</a>
-
-
-					<a href="/ventas" class="btn btn-outline-light">
-						Ventas
-					</a>
-
-
-				</div>
-
-
-
-			</div>
-
-
-		</nav>
-
-
-
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 
 
@@ -108,32 +57,24 @@
 
 			<form id="frmBuscar" action="/clientes/buscar" method="get" class="mt-3 mb-3">
 
-			    <div class="input-group">
+				<div class="input-group">
 
-					<input
-					    type="text"
-					    id="dni"
-					    name="dni"
-					    class="form-control"
-					    placeholder="Ingrese el DNI del cliente"
-					    th:value="${param.dni}">
+					<input type="text" id="dni" name="dni" class="form-control" placeholder="Ingrese el DNI del cliente"
+						th:value="${param.dni}">
 
-			        <button class="btn btn-outline-secondary"
-			                type="button"
-			                id="btnLimpiar">
+					<button class="btn btn-outline-secondary" type="button" id="btnLimpiar">
 
-			            <i class="bi bi-x-lg"></i>
+						<i class="bi bi-x-lg"></i>
 
-			        </button>
+					</button>
 
-			        <button class="btn btn-dark"
-			                type="submit">
+					<button class="btn btn-dark" type="submit">
 
-			            <i class="bi bi-search"></i>
+						<i class="bi bi-search"></i>
 
-			        </button>
+					</button>
 
-			    </div>
+				</div>
 
 			</form>
 
@@ -162,7 +103,7 @@
 						<th>Teléfono</th>
 
 						<th>Correo</th>
-						
+
 						<th class="text-center">Acciones</th>
 
 
@@ -196,16 +137,15 @@
 
 
 						<td th:text="${c.correo}"></td>
-						
+
 						<td class="text-center">
 
-						    <a th:href="@{/clientes/editar/{id}(id=${c.id})}"
-						       class="btn btn-secondary btn-sm"
-						       title="Editar">
+							<a th:href="@{/clientes/editar/{id}(id=${c.id})}" class="btn btn-secondary btn-sm"
+								title="Editar">
 
-						        <i class="bi bi-pencil-square"></i>
+								<i class="bi bi-pencil-square"></i>
 
-						    </a>
+							</a>
 
 						</td>
 
@@ -222,7 +162,15 @@
 
 
 
+			<div class="d-flex justify-content-end gap-2 mt-4">
 
+				<a href="/" class="btn btn-secondary">
+
+					← Volver
+
+				</a>
+
+			</div>
 
 		</div>
 
@@ -237,64 +185,64 @@
 
 	<script>
 
-		$(function(){
+		$(function () {
 
-		    $("#frmBuscar").validate({
+			$("#frmBuscar").validate({
 
-		        rules:{
+				rules: {
 
-		            dni:{
-		                required:true,
-		                digits:true,
-		                
-		            }
+					dni: {
+						required: true,
+						digits: true,
 
-		        },
+					}
 
-		        messages:{
+				},
 
-		            dni:{
-		                required:"Ingrese el DNI del cliente.",
-		                digits:"Solo se permiten números.",
-		                
-		            }
+				messages: {
 
-		        },
+					dni: {
+						required: "Ingrese el DNI del cliente.",
+						digits: "Solo se permiten números.",
 
-		        errorClass:"text-danger",
+					}
 
-		        errorPlacement:function(error, element){
+				},
 
-		            error.insertAfter(element.closest(".input-group"));
+				errorClass: "text-danger",
 
-		        },
+				errorPlacement: function (error, element) {
 
-		        highlight:function(element){
+					error.insertAfter(element.closest(".input-group"));
 
-		            $(element).addClass("is-invalid");
+				},
 
-		        },
+				highlight: function (element) {
 
-		        unhighlight:function(element){
+					$(element).addClass("is-invalid");
 
-		            $(element).removeClass("is-invalid");
+				},
 
-		        }
+				unhighlight: function (element) {
 
-		    });
+					$(element).removeClass("is-invalid");
 
-		    $("#btnLimpiar").click(function(){
+				}
 
-		        $("#dni").val("");
+			});
 
-		        window.location.href="/clientes";
+			$("#btnLimpiar").click(function () {
 
-		    });
+				$("#dni").val("");
+
+				window.location.href = "/clientes";
+
+			});
 
 		});
 
 	</script>
-	
+
 </body>
 
 </html>

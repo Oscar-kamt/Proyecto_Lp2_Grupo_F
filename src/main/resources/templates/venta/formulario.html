@@ -3,6 +3,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<meta charset="UTF-8">
 
@@ -43,22 +45,6 @@
 </head>
 
 <body>
-
-	<nav class="navbar navbar-dark bg-dark">
-
-		<div class="container">
-
-			<a class="navbar-brand" href="/">
-
-				🛍 Tienda Ropa
-
-			</a>
-
-		</div>
-
-	</nav>
-
-
 
 	<div class="container mt-4">
 
@@ -289,7 +275,7 @@
 
 				<a href="/" class="btn btn-secondary">
 
-					Volver
+					← Volver
 
 				</a>
 

@@ -4,6 +4,7 @@
 
 
 <head>
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<meta charset="UTF-8">
 
@@ -81,91 +82,6 @@
 
 
 
-
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-
-		<div class="container">
-
-
-
-			<a class="navbar-brand fw-bold">
-
-				🛍 Tienda Ropa
-
-			</a>
-
-
-
-
-
-			<div>
-
-
-
-				<a href="/" class="btn btn-outline-light">
-
-					Inicio
-
-				</a>
-
-
-				<a href="/productos" class="btn btn-outline-light">
-
-					Productos
-
-				</a>
-
-
-
-				<a href="/categorias" class="btn btn-outline-light">
-
-					Categorias
-
-				</a>
-
-
-
-				<a href="/clientes" class="btn btn-outline-light">
-
-					Clientes
-
-				</a>
-
-
-
-				<a href="/ventas" class="btn btn-outline-light">
-
-					Ventas
-
-				</a>
-
-
-
-				<a href="/logout" class="btn btn-danger">
-
-					Salir
-
-				</a>
-
-
-
-			</div>
-
-
-
-		</div>
-
-
-	</nav>
-
-
-
-
-
-
-
-
 	<div class="container mt-5">
 
 
@@ -213,7 +129,7 @@
 
 			<!-- PRODUCTOS -->
 
-			<div class="col-md-3 mb-4">
+			<div class="col-md-4 mb-4">
 
 
 				<div class="card card-menu text-center p-4">
@@ -263,7 +179,7 @@
 			<!-- CATEGORIAS -->
 
 
-			<div class="col-md-3 mb-4">
+			<div class="col-md-4 mb-4">
 
 
 				<div class="card card-menu text-center p-4">
@@ -315,7 +231,7 @@
 			<!-- CLIENTES -->
 
 
-			<div class="col-md-3 mb-4">
+			<div class="col-md-4 mb-4">
 
 
 				<div class="card card-menu text-center p-4">
@@ -364,45 +280,77 @@
 
 			<!-- NUEVA VENTA -->
 
-			<div class="col-md-3 mb-4">
+			<div class="col-md-4 mb-4">
 
-			    <div class="card card-menu text-center p-4">
+				<div class="card card-menu text-center p-4">
 
-			        <div class="icon">
+					<div class="icon">
 
-			            🧾
+						🧾
 
-			        </div>
+					</div>
 
-			        <h4>
+					<h4>
 
-			            Nueva Venta
+						Nueva Venta
 
-			        </h4>
+					</h4>
 
-			        <p>
+					<p>
 
-			            Registrar una nueva venta
+						Registrar una nueva venta
 
-			        </p>
+					</p>
 
-			        <a href="/ventas" class="btn btn-danger">
+					<a href="/ventas" class="btn btn-danger">
 
-			            Nueva Venta
+						Nueva Venta
 
-			        </a>
+					</a>
 
-			    </div>
+				</div>
 
 			</div>
 
 
+			<!-- REPORTE DE VENTAS -->
 
+			<div class="col-md-4 mb-4">
+
+				<div class="card card-menu text-center p-4">
+
+					<div class="icon">
+
+						📋
+
+					</div>
+
+					<h4>
+
+						Reporte de Ventas
+
+					</h4>
+
+					<p>
+
+						Consulta las boletas registradas
+
+					</p>
+
+					<a href="/reporteVentas" class="btn btn-info">
+
+						Ver Reporte
+
+					</a>
+
+				</div>
+
+			</div>
 
 
 		</div>
 
-	
+
 
 
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="/">
+
+            🛍 Tienda Ropa
+
+        </a>
+
+        <div class="d-flex gap-2">
+
+            <a href="/" class="btn btn-outline-light">
+
+                Inicio
+
+            </a>
+
+            <!-- SOLO ADMIN -->
+
+            <a th:if="${session.usuario.rol=='ADMIN'}"
+               href="/productos"
+               class="btn btn-outline-light">
+
+                Productos
+
+            </a>
+
+            <a th:if="${session.usuario.rol=='ADMIN'}"
+               href="/categorias"
+               class="btn btn-outline-light">
+
+                Categorías
+
+            </a>
+
+            <a th:if="${session.usuario.rol=='ADMIN'}"
+               href="/clientes"
+               class="btn btn-outline-light">
+
+                Clientes
+
+            </a>
+
+            <!-- ADMIN Y VENDEDOR -->
+
+            <a href="/ventas"
+               class="btn btn-outline-light">
+
+                Nueva Venta
+
+            </a>
+
+            <a href="/reporteVentas"
+               class="btn btn-outline-light">
+
+                Rep. Ventas
+
+            </a>
+
+            <a href="/logout"
+               class="btn btn-danger">
+
+                Salir
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+</body>
+
+</html>

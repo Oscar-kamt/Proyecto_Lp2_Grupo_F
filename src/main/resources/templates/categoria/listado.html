@@ -17,62 +17,7 @@
 
 <body>
 
-
-
-
-	<nav class="navbar navbar-dark bg-dark">
-
-
-		<div class="container">
-
-
-			<a class="navbar-brand" href="/">
-				🛍 Tienda Ropa
-			</a>
-
-
-
-			<div>
-
-
-				<a href="/" class="btn btn-outline-light">
-					Inicio
-				</a>
-
-
-				<a href="/productos" class="btn btn-outline-light">
-					Productos
-				</a>
-
-
-				<a href="/categorias" class="btn btn-outline-light">
-					Categorias
-				</a>
-
-
-				<a href="/clientes" class="btn btn-outline-light">
-					Clientes
-				</a>
-
-
-				<a href="/ventas" class="btn btn-outline-light">
-					Ventas
-				</a>
-
-
-			</div>
-
-
-
-		</div>
-
-
-	</nav>
-
-
-
-
-
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 
 	<div class="container mt-4">
@@ -160,10 +105,20 @@
 
 			</table>
 
+			<div class="d-flex justify-content-end gap-2 mt-4">
 
+				<a href="/" class="btn btn-secondary">
+
+					← Volver
+
+				</a>
+
+			</div>
 
 
 		</div>
+
+
 
 
 	</div>

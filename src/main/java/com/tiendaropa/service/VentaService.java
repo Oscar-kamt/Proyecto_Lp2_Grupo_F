@@ -31,6 +31,12 @@ return repo.findAll();
 
 }
 
+public List<Venta> listarPorUsuario(Usuario usuario){
+
+    return repo.findByUsuario(usuario);
+
+}
+
 public Venta buscar(Integer id){
 
     return repo.findById(id).orElse(null);

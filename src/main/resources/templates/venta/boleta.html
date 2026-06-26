@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<meta charset="UTF-8">
 
@@ -186,6 +188,14 @@
 					<span th:text="${venta.cliente.telefono}"></span>
 
 				</p>
+				
+				<p>
+
+				    <b>Vendedor:</b>
+
+				    <span th:text="${venta.usuario.usuario}"></span>
+
+				</p>
 
 			</div>
 
@@ -211,7 +221,7 @@
 
 						<th>Precio Unitario</th>
 
-						<th>Subtotal</th>
+						<th>Total Producto</th>
 
 					</tr>
 
@@ -255,7 +265,11 @@
 
 				<div class="total">
 
-			</div>
+				    TOTAL : S/
+
+				    <span th:text="${#numbers.formatDecimal(venta.total,1,2)}"></span>
+
+				</div>
 
 			<hr>
 
@@ -275,7 +289,7 @@
 
 				<br>
 
-				<a href="/ventas" class="btn btn-secondary btn-lg">
+				<a href="/" class="btn btn-secondary btn-lg">
 
 					← Volver al sistema
 

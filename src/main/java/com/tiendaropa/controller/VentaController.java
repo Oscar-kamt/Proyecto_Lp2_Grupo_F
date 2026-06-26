@@ -47,17 +47,6 @@ public class VentaController {
 	@Autowired
 	DetalleVentaService detalleVentaService;
 
-
-	/*
-	@PostMapping("/guardar")
-	public String guardar(Venta v) {
-
-	    service.guardar(v);
-
-	    return "redirect:/ventas";
-
-	}
-	*/
 	
 	@PostMapping("/guardar")
 	@ResponseBody
