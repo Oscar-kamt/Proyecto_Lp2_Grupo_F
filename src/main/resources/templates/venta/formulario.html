@@ -94,23 +94,53 @@
 
 						<div class="input-group mb-4">
 
-							<input type="text" id="dni" class="form-control" placeholder="Ingrese el DNI">
+						    <input type="text"
+						           id="dni"
+						           class="form-control"
+						           placeholder="Ingrese el DNI">
 
-							<button type="button" class="btn btn-primary" id="btnBuscar">
+						    <button type="button"
+						            class="btn btn-primary"
+						            id="btnBuscar">
 
-								Buscar
+						        Buscar
 
-							</button>
+						    </button>
+							
+							
+
+						    <button type="button"
+						            class="btn btn-danger"
+						            id="btnLimpiarCliente">
+
+						        ✖
+
+						    </button>
 
 						</div>
+						
+						<div id="errorCliente" class="text-danger small mb-3"></div>
 
-						<label class="form-label fw-bold">
+						<div class="mb-3">
+							<label class="form-label fw-bold">
+								Cliente
+							</label>
+							<input id="cliente" class="form-control" readonly>
+						</div>
 
-							Cliente
+						<div class="mb-3">
+							<label class="form-label fw-bold">
+								Correo
+							</label>
+							<input id="correoCliente" class="form-control" readonly>
+						</div>
 
-						</label>
-
-						<input id="cliente" class="form-control" readonly>
+						<div class="mb-3">
+							<label class="form-label fw-bold">
+								Teléfono
+							</label>
+							<input id="telefonoCliente" class="form-control" readonly>
+						</div>
 
 					</div>
 
@@ -136,15 +166,49 @@
 
 						</label>
 
-						<select class="form-select mb-4">
+						<select id="producto" class="form-select mb-4">
 
-							<option>
+						    <option value="">
+						        Seleccione un producto
+						    </option>
 
-								Seleccione un producto
-
-							</option>
+						    <option
+						        th:each="p : ${productos}"
+						        th:value="${p.id}"
+						        th:text="${p.nombre}">
+						    </option>
 
 						</select>
+
+						<div id="errorProducto" class="text-danger small mb-3"></div>
+
+						<div class="row mb-4">
+
+							<div class="col">
+
+								<label class="form-label fw-bold">
+
+									Precio
+
+								</label>
+
+								<input id="precio" class="form-control" readonly>
+
+							</div>
+
+							<div class="col">
+
+								<label class="form-label fw-bold">
+
+									Stock
+
+								</label>
+
+								<input id="stock" class="form-control" readonly>
+
+							</div>
+
+						</div>
 
 						<label class="form-label fw-bold">
 
@@ -152,9 +216,11 @@
 
 						</label>
 
-						<input type="number" class="form-control mb-4">
+						<input type="number" id="cantidad" class="form-control mb-4" min="1">
+						
+						<div id="errorCantidad" class="text-danger small mb-3"></div>
 
-						<button class="btn btn-success align-self-start">
+						<button type="button" id="btnAgregar" class="btn btn-success align-self-start">
 
 							Agregar Producto
 
@@ -196,7 +262,7 @@
 
 					</thead>
 
-					<tbody>
+					<tbody id="detalleVenta">
 
 					</tbody>
 
@@ -208,7 +274,8 @@
 
 					<h3 class="fw-bold">
 
-						Total : S/ 0.00
+					    Total : S/
+					    <span id="totalVenta">0.00</span>
 
 					</h3>
 
@@ -226,10 +293,8 @@
 
 				</a>
 
-				<button class="btn btn-success">
-
-					Generar Venta
-					
+				<button id="btnGenerar" class="btn btn-success">
+				    Generar Venta
 				</button>
 
 			</div>
@@ -243,27 +308,284 @@
 	<script>
 
 		$(function () {
+			
+			let total = 0;
+			let stockTemporal = {};
+			let detalleVenta = [];
 
 			$("#btnBuscar").click(function () {
 
-				let dni = $("#dni").val();
+			    let dni = $("#dni").val();
 
-				$.get("/ventas/buscarCliente", {dni: dni}, function (data) {
+			    $.get("/ventas/buscarCliente", { dni: dni }, function (data) {
 
-					if (data == "") {
+			        if (data == "") {
 
-						$("#cliente").val("Cliente no encontrado");
+			            $("#errorCliente").text("No existe un cliente con ese DNI.");
+			            $("#cliente").val("");
+			            $("#correoCliente").val("");
+			            $("#telefonoCliente").val("");
 
-						return;
+			            return;
+			        }
 
-					}
+					$("#errorCliente").text("");
+					$("#errorProducto").text("");
+					$("#errorCantidad").text("");
 
-					$("#cliente").val(data);
+			        $("#cliente").val(data.nombre);
+			        $("#correoCliente").val(data.correo);
+			        $("#telefonoCliente").val(data.telefono);
+
+			    });
+
+			});
+
+			$("#btnLimpiarCliente").click(function(){
+
+			    $("#dni").val("");
+			    $("#cliente").val("");
+			    $("#correoCliente").val("");
+			    $("#telefonoCliente").val("");
+
+				$("#errorCliente").text("");
+				$("#errorProducto").text("");
+				$("#errorCantidad").text("");
+
+			    $("#dni").focus();
+
+			});
+
+			$("#producto").change(function () {
+
+				let id = $("#producto").val();
+
+				if (id == "") {
+
+				    $("#precio").val("");
+				    $("#stock").val("");
+				    $("#cantidad").val("");
+
+				    return;
+
+				}
+
+				$.get("/ventas/buscarProducto", { id:id }, function(data){
+
+				    $("#precio").val(data.precio);
+
+				    if(stockTemporal[id] != undefined){
+
+				        $("#stock").val(stockTemporal[id]);
+
+				    }else{
+
+				        $("#stock").val(data.stock);
+
+				        stockTemporal[id] = data.stock;
+
+				    }
+
+				    $("#cantidad").val("");
 
 				});
 
 			});
+				
+			$("#btnAgregar").click(function(){
+				
+				$("#errorCliente").text("");
+				$("#errorProducto").text("");
+				$("#errorCantidad").text("");
 
+			    let idProducto = $("#producto").val();
+			    let producto = $("#producto option:selected").text();
+			    let precio = parseFloat($("#precio").val());
+			    let stock = parseInt($("#stock").val());
+			    let cantidad = parseInt($("#cantidad").val());
+
+			    if($("#cliente").val()==""){
+					$("#errorCliente").text("Debe buscar un cliente.");
+					return;
+			    }
+
+			    if(idProducto==""){
+					$("#errorProducto").text("Seleccione un producto.");
+					return;
+			    }
+
+			    if(isNaN(cantidad) || cantidad<=0){
+					$("#errorCantidad").text("Ingrese una cantidad válida.");
+					return;
+			    }
+				
+				if(stock <= 0){
+					$("#errorProducto").text("Este producto no tiene stock.");
+					return;
+				}
+
+			    if(cantidad>stock){
+					$("#errorCantidad").text("La cantidad no puede ser mayor al stock disponible.");
+					return;
+				}
+
+			    let repetido = false;
+
+			    $("#detalleVenta tr").each(function(){
+
+			        if($(this).find(".idProducto").val()==idProducto){
+			            repetido = true;
+			        }
+
+			    });
+
+			    if(repetido){
+					$("#errorProducto").text("Ese producto ya fue agregado a la venta.");
+					return;
+			    }
+
+			    let subtotal = precio*cantidad;
+
+			    total += subtotal;
+				
+				stockTemporal[idProducto] -= cantidad;
+				
+				detalleVenta.push({
+
+				    idProducto: idProducto,
+				    cantidad: cantidad,
+				    precio: precio,
+				    subtotal: subtotal
+
+				});
+
+			    $("#totalVenta").text(total.toFixed(2));
+
+			    let fila = `
+			    <tr>
+
+			        <td>${producto}
+			            <input type="hidden"
+			                   class="idProducto"
+			                   value="${idProducto}">
+			        </td>
+
+			        <td class="cantidad">${cantidad}</td>
+
+			        <td>${precio.toFixed(2)}</td>
+
+			        <td class="subtotal">${subtotal.toFixed(2)}</td>
+
+			        <td>
+
+			            <button type="button"
+			                    class="btn btn-danger btnEliminar">
+
+			                Quitar
+
+			            </button>
+
+			        </td>
+
+			    </tr>
+			    `;
+
+			    $("#detalleVenta").append(fila);
+				
+				$("#errorCliente").text("");
+				$("#errorProducto").text("");
+				$("#errorCantidad").text("");
+
+				$("#producto").val("");
+				$("#precio").val("");
+				$("#stock").val("");
+				$("#cantidad").val("");
+				$("#producto").focus();
+
+			});
+			
+			$(document).on("click", ".btnEliminar", function () {
+
+			    let fila = $(this).closest("tr");
+
+			    let subtotal = parseFloat(fila.find(".subtotal").text());
+
+			    let idProducto = fila.find(".idProducto").val();
+
+			    let cantidad = parseInt(fila.find(".cantidad").text());
+
+			    stockTemporal[idProducto] += cantidad;
+				
+				detalleVenta = detalleVenta.filter(function(item){
+
+				    return item.idProducto != idProducto;
+
+				});
+
+				total -= subtotal;
+
+				if (Math.abs(total) < 0.01) {
+				    total = 0;
+				}
+
+				$("#totalVenta").text(total.toFixed(2));
+
+				fila.remove();
+
+			});
+			
+			$("#btnGenerar").click(function () {
+
+			    $("#errorCliente").text("");
+			    $("#errorProducto").text("");
+			    $("#errorCantidad").text("");
+
+			    if ($("#cliente").val() == "") {
+			        $("#errorCliente").text("Debe buscar un cliente.");
+			        return;
+			    }
+
+			    if (detalleVenta.length == 0) {
+			        $("#errorProducto").text("Debe agregar al menos un producto.");
+			        return;
+			    }
+
+			    let venta = {
+
+			        dni: $("#dni").val(),
+
+			        total: parseFloat(total.toFixed(2)),
+
+			        detalle: detalleVenta
+
+			    };
+
+				$.ajax({
+
+				    url: "/ventas/guardar",
+
+				    type: "POST",
+
+				    contentType: "application/json",
+
+				    data: JSON.stringify(venta),
+
+				    success: function(idVenta){
+
+				        window.location.href = "/ventas/boleta/" + idVenta;
+
+				    },
+
+					error: function(){
+
+					    $("#errorProducto").text("No se pudo generar la venta.");
+
+					}
+
+				});
+
+			});
+				
 		});
 
 	</script>
