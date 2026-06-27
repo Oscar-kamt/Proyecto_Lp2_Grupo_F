@@ -70,15 +70,22 @@
 
 					    <span th:text="${#numbers.formatDecimal(v.total,1,2)}"></span>
 
-					</td>
-
 					<td>
 
-						<a th:href="@{/ventas/boleta/{id}(id=${v.id})}" class="btn btn-primary btn-sm">
+					    <a th:href="@{/ventas/boleta/{id}(id=${v.id})}"
+					       class="btn btn-primary btn-sm">
 
-							👁 Ver
+					        👁 Ver
 
-						</a>
+					    </a>
+
+					    <a th:href="@{/reporte/boleta/{id}(id=${v.id})}"
+					       target="_blank"
+					       class="btn btn-danger btn-sm ms-1">
+
+					        📄 PDF
+
+					    </a>
 
 					</td>
 

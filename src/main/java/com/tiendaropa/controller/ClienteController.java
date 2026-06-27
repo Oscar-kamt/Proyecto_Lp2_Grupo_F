@@ -164,20 +164,22 @@ public String eliminar(@PathVariable Integer id,
 }
 
 @GetMapping("/buscar")
-public String buscar(
-
-        @RequestParam("dni") String dni,
-
-        Model model,
-
-        HttpSession session){
+public String buscar(@RequestParam("dni") String dni,
+                     Model model,
+                     HttpSession session){
 
     if(!accesoAdmin(session)){
         return "redirect:/";
     }
 
-    model.addAttribute("clientes",
-            service.buscar(dni));
+    var lista = service.buscar(dni);
+
+    if(lista.isEmpty()){
+        model.addAttribute("mensaje",
+                "No se encontró ningún cliente.");
+    }
+
+    model.addAttribute("clientes", lista);
 
     return "cliente/listado";
 

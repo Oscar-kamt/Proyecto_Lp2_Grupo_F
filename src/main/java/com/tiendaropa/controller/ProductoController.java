@@ -161,20 +161,22 @@ public String eliminar(@PathVariable Integer id,
 }
 
 @GetMapping("/buscar")
-public String buscar(
-
-@RequestParam String nombre,
-
-Model model,
-
-HttpSession session){
+public String buscar(@RequestParam String nombre,
+                     Model model,
+                     HttpSession session){
 
     if(!accesoAdmin(session)){
         return "redirect:/";
     }
 
-    model.addAttribute("productos",
-            service.buscar(nombre));
+    var lista = service.buscar(nombre);
+
+    if(lista.isEmpty()){
+        model.addAttribute("mensaje",
+                "No se encontró ningún producto.");
+    }
+
+    model.addAttribute("productos", lista);
 
     return "producto/listado";
 
